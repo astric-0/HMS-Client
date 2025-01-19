@@ -1,8 +1,9 @@
 import { ListGroup, Container, Button, Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { useState, useCallback } from "react";
+import { getUrl } from "../config";
 
-function MovieList({ files, getUrl }) {
+function MovieList({ files }) {
 	const [showModal, setShowModal] = useState(false);
 	const [selectedUrl, setSelectedUrl] = useState("");
 
@@ -13,13 +14,13 @@ function MovieList({ files, getUrl }) {
 			?.writeText(getUrl(url))
 			.then(() => alert("URL copied to clipboard!"))
 			.catch((err) => alert("Failed to copy:", err));
-	}, [getUrl]);
+	}, []);
 
 	const handleShowUrl = useCallback((url, e) => {
 		e.stopPropagation();
 		setSelectedUrl(getUrl(url));
 		setShowModal(true);
-	}, [getUrl]);
+	}, []);
 
 	const openInVLC = useCallback((url) => {
 		const videoUrl = getUrl(url);
@@ -29,7 +30,7 @@ function MovieList({ files, getUrl }) {
 		setTimeout(() => {
 			window.location.href = `vlc://${videoUrl}`;
 		}, 100);
-	}, [getUrl]);
+	}, []);
 
 	return (
 		<Container className="py-3">
@@ -104,7 +105,6 @@ MovieList.propTypes = {
 			name: PropTypes.string.isRequired,
 		})
 	).isRequired,
-	getUrl: PropTypes.func.isRequired,
 };
 
 export default MovieList;

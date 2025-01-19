@@ -1,1 +1,63 @@
-@import 'bootstrap/dist/css/bootstrap.min.css'
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 70px; /* Height of bottom nav */
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.bottom-nav .nav-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+  color: #6c757d;
+}
+
+.bottom-nav .nav-link.active {
+  color: #0d6efd;
+}
+
+.bottom-nav i {
+  font-size: 1.5rem;
+  margin-bottom: 2px;
+}
+
+.bottom-nav span {
+  font-size: 0.75rem;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #e7f1ff;
+  color: #0d6efd;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+  border-color: rgba(0,0,0,.125);
+}
+
+.list-group-item .btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.accordion-body .list-group-item:last-child {
+  border-bottom: none;
+}

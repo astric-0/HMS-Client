@@ -1,9 +1,10 @@
-import {
-	useQuery,
-	QueryClientProvider,
-	QueryClient,
-} from "@tanstack/react-query";
-import MovieList from "./MovieList";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import BottomNav from "./components/BottomNav";
+import Movies from "./pages/Movies";
+import Series from "./pages/Series";
+import MovieSeries from "./pages/MovieSeries";
+import Settings from "./pages/Settings";
 import "./App.css";
 
 const queryClient = new QueryClient();
@@ -11,42 +12,20 @@ const queryClient = new QueryClient();
 function App() {
 	return (
 		<QueryClientProvider client={queryClient}>
-			<Wrapper />
+			<BrowserRouter>
+				<div className="app-container">
+					<div className="content-wrapper">
+						<Routes>
+							<Route path="/" element={<Movies />} />
+							<Route path="/series" element={<Series />} />
+							<Route path="/movie-series" element={<MovieSeries />} />
+							<Route path="/settings" element={<Settings />} />
+						</Routes>
+					</div>
+					<BottomNav />
+				</div>
+			</BrowserRouter>
 		</QueryClientProvider>
-	);
-}
-
-function Wrapper() {
-	const baseUrl = "http://192.168.1.10:3000";
-	//const baseUrl = "http://localhost:3000";
-	const { data, isLoading } = useQuery({
-		queryKey: ["files"],
-		queryFn: async () => {
-			const response = await fetch(`${baseUrl}/media/movies/list`);
-			return response.json();
-		},
-	});
-
-	const getUrl = (path) => {
-		return `${baseUrl}${path}`;
-	};
-
-	const handleOpenInVLC = (path) => {
-		const vlcLink = `vlc://${getUrl(path)}`;
-		window.location.href = vlcLink; // Open VLC link in a new tab
-	};
-
-	return (
-		<>
-			<h3>Movies</h3>
-			{!isLoading && (
-				<MovieList
-					files={data.videos}
-					onFileClick={handleOpenInVLC}
-					getUrl={getUrl}
-				/>
-			)}
-		</>
 	);
 }
 
