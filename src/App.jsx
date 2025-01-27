@@ -5,6 +5,8 @@ import Movies from "./pages/Movies";
 import Series from "./pages/Series";
 import MovieSeries from "./pages/MovieSeries";
 import Settings from "./pages/Settings";
+import DownloadJobs from "./pages/DownloadJobs";
+import DownloadsDirectory from "./pages/DownloadsDirectory";
 import "./App.css";
 
 const queryClient = new QueryClient();
@@ -20,6 +22,11 @@ function App() {
 							<Route path="/series" element={<Series />} />
 							<Route path="/movie-series" element={<MovieSeries />} />
 							<Route path="/settings" element={<Settings />} />
+							<Route path="/downloads" element={<DownloadJobs />} />
+							<Route
+								path="/downloads-directory"
+								element={<DownloadsDirectory />}
+							/>
 						</Routes>
 					</div>
 					<BottomNav />

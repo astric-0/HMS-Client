@@ -9,6 +9,7 @@ export default function CreateJsonView() {
 		movies: false,
 		series: false,
 		movieSeries: false,
+		downloads: false,
 	});
 
 	const handleCreateJson = async (mediaType) => {
@@ -23,6 +24,7 @@ export default function CreateJsonView() {
 			setLoading((prev) => ({ ...prev, [mediaType]: false }));
 		}
 	};
+	
 	return (
 		<Container>
 			<h4 className="my-3">Create JSON</h4>
@@ -46,6 +48,13 @@ export default function CreateJsonView() {
 					iconClass="bi bi-tv"
 					text="Series"
 					onClick={() => handleCreateJson(MEDIA_TYPES.SERIES)}
+				/>
+
+				<LoadingButton
+					loading={loading.downloads}
+					iconClass="bi bi-cloud-download"
+					text="Downloads"
+					onClick={() => handleCreateJson(MEDIA_TYPES.DOWNLOADS)}
 				/>
 			</ButtonGroup>
 		</Container>
