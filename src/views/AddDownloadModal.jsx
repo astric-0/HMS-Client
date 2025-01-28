@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Modal, Button, Form, Spinner } from "react-bootstrap";
 import { useAddDownloads } from "../api";
 import PropTypes from "prop-types";
@@ -32,6 +32,15 @@ function AddDownloadModal({ show, setter }) {
 		[downloadData, addDownloadMutation, setter]
 	);
 
+	useEffect(() => {
+		if (
+			!addDownloadMutation.isLoading &&
+			!addDownloadMutation.error &&
+			addDownloadMutation.data
+		)
+			setter(false);
+	}, [setter, addDownloadMutation]);
+
 	return (
 		<Form onSubmit={handleAddDownload} className="mb-3">
 			<Modal show={show} onHide={() => setter(false)}>
@@ -48,7 +57,7 @@ function AddDownloadModal({ show, setter }) {
 							placeholder="Enter URL to download"
 							value={downloadData.url}
 							onChange={(e) => {
-								setDownloadData({  ...downloadData, url: e.target.value });
+								setDownloadData({ ...downloadData, url: e.target.value });
 							}}
 							isInvalid={!!errors.url}
 						/>

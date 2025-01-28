@@ -42,6 +42,7 @@ export const useDownloadJobs = () => {
 };
 
 export const useAddDownloads = () => {
+	const queryClient = useQueryClient();
 	return useMutation({
 		mutationFn: async (data) => {
 			const response = await fetch(config.apis.downloadJobs, {
@@ -57,6 +58,9 @@ export const useAddDownloads = () => {
 			}
 
 			return response.json();
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries("mediaDownloads");
 		},
 	});
 };
