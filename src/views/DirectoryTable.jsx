@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { getFileIcon } from "../constants";
 import { formatFileSize } from "../helpers/formatFileSize";
 import FileDetailsModal from "./FileDetailsModal";
-import { useRemoveDownloadedFile } from "../api";
+import { useRemoveDownloadedFile, useMoveFileMutation } from "../api";
 
 function DirectoryTable({ isLoading, files, error }) {
 	const [selectedFile, setSelectedFile] = useState(null);
@@ -21,12 +21,20 @@ function DirectoryTable({ isLoading, files, error }) {
 	}, []);
 
 	const deleteMutation = useRemoveDownloadedFile();
+	const moveFileMutation = useMoveFileMutation();
 
 	const handleDeleteFile = useCallback(
 		async (file) => {
 			deleteMutation.mutate(file);
 		},
 		[deleteMutation]
+	);
+
+	const handleMoveFile = useCallback(
+		async (actionPayload) => {
+			moveFileMutation.mutate(actionPayload);
+		},
+		[moveFileMutation]
 	);
 
 	return (
@@ -76,6 +84,8 @@ function DirectoryTable({ isLoading, files, error }) {
 				file={selectedFile}
 				onDelete={handleDeleteFile}
 				deleteMutation={deleteMutation}
+				onMove={handleMoveFile}
+				moveMutation={moveFileMutation}
 			/>
 		</>
 	);

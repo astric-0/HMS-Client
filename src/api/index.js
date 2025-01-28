@@ -114,3 +114,28 @@ export const useRemoveDownloadedFile = () => {
 		},
 	});
 };
+
+export const useMoveFileMutation = () => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: async (movePayload) => {
+			const response = await fetch(
+				config.apis.moveDownloadedFile(movePayload.file.name),
+				{
+					method: "PATCH",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(movePayload),
+				}
+			);
+
+			if (!response.ok) throw new Error(response?.json()?.error);
+			return response.json();
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries("downloadsDirectory");
+		},
+	});
+};

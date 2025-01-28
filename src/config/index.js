@@ -9,6 +9,7 @@ export const config = Object.freeze({
 		json: getUrl("/media/json"),
 		downloadJobs: getUrl("/downloads/jobs"),
 		downloadsDirectory: getUrl("/downloads/"),
+		moveDownloadedFile: (fileName) => getUrl(`/downloads/${fileName}/move`),
 	},
 });
 

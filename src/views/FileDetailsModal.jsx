@@ -1,10 +1,25 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Modal, Button, Row, Col, Spinner } from "react-bootstrap";
+import MoveOptionsForMediaFile from "./MoveOptionsForMediaFile";
 import PropTypes from "prop-types";
 import { formatFileSize } from "../helpers/formatFileSize";
 import { getFileIcon } from "../constants";
 
-function FileDetailsModal({ show, onHide, file, onDelete, deleteMutation }) {
+const ACTIONS = Object.freeze({
+	MOVE_ACTION_FOR_MEDIA_FILE: "move_action_for_media_file",
+});
+
+function FileDetailsModal({
+	show,
+	onHide,
+	file,
+	onDelete,
+	deleteMutation,
+	onMove,
+	moveMutation,
+}) {
+	const [moveAction, setMoveAction] = useState(null);
+
 	const handleDelete = useCallback(() => {
 		onDelete(file);
 		onHide();
@@ -53,13 +68,39 @@ function FileDetailsModal({ show, onHide, file, onDelete, deleteMutation }) {
 							: file.extension?.substring(1).toUpperCase() || "File"}
 					</Col>
 				</Row>
+				<Row className="mt-3">
+					<Col md={12}>
+						<strong>Actions:</strong>
+					</Col>
+					<Col md={12} className="mt-2 d-flex gap-2">
+						{!moveAction && (
+							<Button
+								variant="outline-primary"
+								onClick={() =>
+									setMoveAction(ACTIONS.MOVE_ACTION_FOR_MEDIA_FILE)
+								}
+							>
+								Move
+							</Button>
+						)}
+						{moveAction === ACTIONS.MOVE_ACTION_FOR_MEDIA_FILE && (
+							<Button
+								variant="outline-secondary"
+								onClick={() => setMoveAction(null)}
+							>
+								Cancel Move
+							</Button>
+						)}
+					</Col>
+				</Row>
+
+				{moveAction == ACTIONS.MOVE_ACTION_FOR_MEDIA_FILE && (
+					<MoveOptionsForMediaFile {...{ file, moveMutation, onMove }} />
+				)}
 			</Modal.Body>
 			<Modal.Footer>
 				<div className="d-flex justify-content-between w-100">
-					<Button
-						variant="transparent"
-						onClick={() => handleDelete()}
-					>
+					<Button variant="transparent" onClick={() => handleDelete()}>
 						{!deleteMutation?.isLoading ? (
 							<i className="bi bi-trash-fill text-danger"></i>
 						) : (
@@ -88,8 +129,10 @@ FileDetailsModal.propTypes = {
 		path: PropTypes.string.isRequired,
 		extension: PropTypes.string,
 	}),
-	onDelete: PropTypes.func.isRequired,
-	deleteMutation: PropTypes.object.isRequired,
+	onDelete: PropTypes.func,
+	deleteMutation: PropTypes.object,
+	onMove: PropTypes.func,
+	moveMutation: PropTypes.object,
 };
 
 export default FileDetailsModal;
