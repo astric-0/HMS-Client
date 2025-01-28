@@ -22,7 +22,7 @@ function App() {
 							<Route path="/series" element={<Series />} />
 							<Route path="/movie-series" element={<MovieSeries />} />
 							<Route path="/settings" element={<Settings />} />
-							<Route path="/downloads" element={<DownloadJobs />} />
+							<Route path="/download-jobs" element={<DownloadJobs />} />
 							<Route
 								path="/downloads-directory"
 								element={<DownloadsDirectory />}

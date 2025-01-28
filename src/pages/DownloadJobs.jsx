@@ -30,7 +30,7 @@ function DownloadJobs() {
 	return (
 		<Container>
 			<div className="d-flex justify-content-between">
-				<h3 className="my-3">Server Downloads</h3>
+				<h3 className="my-3">Download Jobs</h3>
 				<Button
 					onClick={() => setShowModal(true)}
 					variant="transparent"

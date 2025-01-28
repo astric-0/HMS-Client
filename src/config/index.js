@@ -7,8 +7,8 @@ export const config = Object.freeze({
 		series: getUrl("/media/series/list"),
 		movieSeries: getUrl("/media/movie-series/list"),
 		json: getUrl("/media/json"),
-		downloadJobs: getUrl("/media/download-jobs"),
-		downloadsDirectory: getUrl("/media/downloads/list"),
+		downloadJobs: getUrl("/downloads/jobs"),
+		downloadsDirectory: getUrl("/downloads/list"),
 	},
 });
 
@@ -17,7 +17,7 @@ export const navConfig = Object.freeze([
 	makeNavLink("Movies", "/", "bi-film"),
 	makeNavLink("Movie Series", "/movie-series", "bi-collection-play"),
 	makeNavLink("Series", "/series", "bi-tv"),
-	makeNavLink("Settings", "/settings", "bi-gear"),
-	makeNavLink("Downloads", "/downloads-jobs", "bi-cloud-download"),
+	makeNavLink("Downloads", "/download-jobs", "bi-cloud-download"),
 	makeNavLink("Files", "/downloads-directory", "bi-folder"),
+	makeNavLink("Settings", "/settings", "bi-gear"),
 ]);

@@ -8,7 +8,7 @@ function BottomNav() {
 
 	return (
 		<Nav
-			className="mx-3 my-2 bottom-nav justify-content-around align-items-center rounded-pill"
+			className="mx-3 my-2 bottom-nav justify-content-around align-items-center rounded"
 			activeKey={location.pathname}
 		>
 			{navConfig.map(({ name, path, iconClass }) => (
