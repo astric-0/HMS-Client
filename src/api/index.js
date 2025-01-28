@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { config } from "../config";
 
 export const useMovies = () => {
@@ -90,6 +90,27 @@ export const useDownloadsDirectory = () => {
 				throw new Error(`HTTP error! status: ${response.status}`);
 			}
 			return response.json();
+		},
+	});
+};
+
+export const useRemoveDownloadedFile = () => {
+	const queryClient = useQueryClient();
+
+	return useMutation({
+		mutationFn: async (file) => {
+			const response = await fetch(config.apis.downloadsDirectory, {
+				method: "DELETE",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(file),
+			});
+
+			if (!response.ok) throw new Error(response?.json()?.error);
+
+			return response.json();
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries("downloadsDirectory");
 		},
 	});
 };
