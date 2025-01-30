@@ -1,5 +1,5 @@
 import { Container } from "react-bootstrap";
-import CreateJsonView from "../views/CreateJsonView";
+import CreateJsonView from "../views/create-json-view";
 
 function Settings() {
 	return (

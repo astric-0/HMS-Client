@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import { Modal, Button, Row, Col, Spinner } from "react-bootstrap";
-import MoveOptionsForMediaFile from "./MoveOptionsForMediaFile";
+import MoveOptionsForMediaFile from "./move-options-for-media-file";
 import PropTypes from "prop-types";
-import { formatFileSize } from "../helpers/formatFileSize";
+import { formatFileSize } from "../helpers/format-file-size";
 import { getFileIcon } from "../constants";
 
 const ACTIONS = Object.freeze({

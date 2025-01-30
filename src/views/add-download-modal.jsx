@@ -13,17 +13,10 @@ function AddDownloadModal({ show, setter }) {
 			event.preventDefault();
 
 			const errors = {};
-			if (!downloadData?.url) {
-				errors.url = "Invalid Url";
-			}
+			if (!downloadData?.url) errors.url = "Invalid Url";
+			if (!downloadData?.filename) errors.filename = "Invalid Filename";
 
-			if (!downloadData?.filename) {
-				errors.filename = "Invalid Filename";
-			}
-
-			if (errors.url || errors.filename) {
-				return setErrors(errors);
-			}
+			if (errors.url || errors.filename) return setErrors(errors);
 
 			const response = addDownloadMutation.mutate(downloadData);
 			if (response) setter(false);

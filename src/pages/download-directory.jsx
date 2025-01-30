@@ -1,10 +1,13 @@
 import { Container, Alert } from "react-bootstrap";
 import { useDownloadsDirectory } from "../api";
-import DirectoryTable from "../views/DirectoryTable";
+import DirectoryTable from "../views/directory-table";
+import StorageInfo from "../views/storage-info";
 
 function DownloadsDirectory() {
 	const { data, isLoading, error } = useDownloadsDirectory();
 	const files = data?.files || [];
+
+	console.log(data);
 
 	return (
 		<Container>
@@ -14,8 +17,12 @@ function DownloadsDirectory() {
 					Error fetching directory contents: {error.message}
 				</Alert>
 			)}
-
-			<DirectoryTable {...{ isLoading, files, error }} />
+			{!error && !isLoading && (
+				<>
+					<StorageInfo info={data.storageInfo} />
+					<DirectoryTable {...{ isLoading, files, error }} />
+				</>
+			)}
 		</Container>
 	);
 }

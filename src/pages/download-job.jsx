@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Container, Spinner, Button } from "react-bootstrap";
 import { useDownloadJobs } from "../api";
-import AddDownloadModal from "../views/AddDownloadModal";
-import DownloadsTable from "../views/DownloadsTable";
+import AddDownloadModal from "../views/add-download-modal";
+import DownloadsTable from "../views/downloads-table";
 
 function DownloadJobs() {
 	const { data, isLoading } = useDownloadJobs();

@@ -2,8 +2,8 @@ import { useState, useCallback } from "react";
 import { Spinner, Table } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { getFileIcon } from "../constants";
-import { formatFileSize } from "../helpers/formatFileSize";
-import FileDetailsModal from "./FileDetailsModal";
+import { formatFileSize } from "../helpers/format-file-size";
+import FileDetailsModal from "./file-details-modal";
 import { useRemoveDownloadedFile, useMoveFileMutation } from "../api";
 
 function DirectoryTable({ isLoading, files, error }) {

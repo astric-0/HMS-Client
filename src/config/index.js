@@ -7,9 +7,11 @@ export const config = Object.freeze({
 		series: getUrl("/media/series/list"),
 		movieSeries: getUrl("/media/movie-series/list"),
 		json: getUrl("/media/json"),
+		
 		downloadJobs: getUrl("/downloads/jobs"),
-		downloadsDirectory: getUrl("/downloads/"),
-		moveDownloadedFile: (fileName) => getUrl(`/downloads/${fileName}/move`),
+
+		downloadsDirectory: getUrl("/files"),
+		moveDownloadedFile: (fileName) => getUrl(`/files/${fileName}/move`),
 	},
 });
 
