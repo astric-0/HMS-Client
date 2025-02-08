@@ -7,6 +7,7 @@ MoveOptionsForMediaFile.propTypes = {
 	file: PropTypes.object.isRequired,
 	onMove: PropTypes.func.isRequired,
 	moveMutation: PropTypes.object.isRequired,
+	sourcePath: PropTypes.string.isRequired,
 };
 
 export default function MoveOptionsForMediaFile({
@@ -21,15 +22,10 @@ export default function MoveOptionsForMediaFile({
 		if (!moveTo) return;
 
 		const actionPayload = {
-			actionType: "move",
 			file,
 			destination: {
 				rootDir: moveTo,
 				path: path.filter(Boolean),
-			},
-			source: {
-				rootDir: '',
-				path: [],
 			}
 		};
 

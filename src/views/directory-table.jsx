@@ -4,9 +4,16 @@ import PropTypes from "prop-types";
 import { getFileIcon } from "../constants";
 import { formatFileSize } from "../helpers/format-file-size";
 import FileDetailsModal from "./file-details-modal";
-import { useRemoveDownloadedFile, useMoveFileMutation } from "../api";
+import { useRemoveFile, useMoveFileMutation } from "../api";
 
-function DirectoryTable({ isLoading, files, error, handleOpenDir }) {
+function DirectoryTable({
+	isLoading,
+	files,
+	error,
+	handleOpenDir,
+	rootDir,
+	path,
+}) {
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [showModal, setShowModal] = useState(false);
 
@@ -20,18 +27,18 @@ function DirectoryTable({ isLoading, files, error, handleOpenDir }) {
 		setTimeout(() => setSelectedFile(null), 300);
 	}, []);
 
-	const deleteMutation = useRemoveDownloadedFile();
-	const moveFileMutation = useMoveFileMutation();
+	const deleteMutation = useRemoveFile({ rootDir, path });
+	const moveFileMutation = useMoveFileMutation({ rootDir, path });
 
 	const handleDeleteFile = useCallback(
-		async (file) => {
-			deleteMutation.mutate(file);
+		async (filename) => {
+			await deleteMutation.mutateAsync(filename);
 		},
 		[deleteMutation]
 	);
 
 	const handleMoveFile = useCallback(
-		async (actionPayload) => {
+		(actionPayload) => {
 			moveFileMutation.mutate(actionPayload);
 		},
 		[moveFileMutation]
@@ -44,12 +51,12 @@ function DirectoryTable({ isLoading, files, error, handleOpenDir }) {
 					<span className="visually-hidden">Loading directory contents...</span>
 				</Spinner>
 			) : (
-				<Table bordered hover responsive>
+				<Table hover responsive>
 					<thead>
 						<tr>
 							<th className="width-75">Name</th>
 							<th className="width-25">Size</th>
-							<th className="width-25">Type</th>
+							<th className="width-25"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -63,13 +70,15 @@ function DirectoryTable({ isLoading, files, error, handleOpenDir }) {
 									}
 								>
 									<i className={`bi ${getFileIcon(file)} me-2`}></i>
-									{file.name}
+									<span className="text-break">{file.name}</span>
 								</td>
-								<td>{!file.isDir ? formatFileSize(file.size) : 'N/A'}</td>
+								<td>{!file.isDir ? formatFileSize(file.size) : "N/A"}</td>
 								<td>
-									{file.isDir
-										? "Directory"
-										: file.extension?.substring(1).toUpperCase() || "File"}
+									<i
+										role="button"
+										onClick={() => openFileDetails(file)}
+										className="bi bi-three-dots-vertical"
+									></i>
 								</td>
 							</tr>
 						))}
@@ -102,6 +111,8 @@ DirectoryTable.propTypes = {
 	files: PropTypes.array.isRequired,
 	error: PropTypes.bool,
 	handleOpenDir: PropTypes.func,
+	rootDir: PropTypes.string.isRequired,
+	path: PropTypes.array,
 };
 
 export default DirectoryTable;

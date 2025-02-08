@@ -24,7 +24,7 @@ function App() {
 							<Route path="/settings" element={<Settings />} />
 							<Route path="/download-jobs" element={<DownloadJobs />} />
 							<Route
-								path="/downloads-directory"
+								path="/directory"
 								element={<Directory />}
 							/>
 						</Routes>

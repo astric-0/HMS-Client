@@ -21,7 +21,7 @@ function FileDetailsModal({
 	const [moveAction, setMoveAction] = useState(null);
 
 	const handleDelete = useCallback(() => {
-		onDelete(file);
+		onDelete(file.name, file.isDir);
 		onHide();
 	}, [onDelete, onHide, file]);
 
@@ -32,7 +32,7 @@ function FileDetailsModal({
 			<Modal.Header closeButton>
 				<Modal.Title>
 					<i className={`bi ${getFileIcon(file)} me-2`}></i>
-					{file.name}
+					<span className="text-break">{file.name}</span>
 				</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
@@ -125,8 +125,8 @@ FileDetailsModal.propTypes = {
 	file: PropTypes.shape({
 		isDir: PropTypes.bool.isRequired,
 		name: PropTypes.string.isRequired,
-		size: PropTypes.number.isRequired,
 		path: PropTypes.string.isRequired,
+		size: PropTypes.number,
 		extension: PropTypes.string,
 	}),
 	onDelete: PropTypes.func,

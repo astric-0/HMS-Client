@@ -8,7 +8,7 @@ function ChooseDirectoryDropdown({ rootDir, handleChooseRootDir }) {
 
 	return (
 		<Dropdown>
-			<Dropdown.Toggle variant="transparent" className="my-1 w-100" id="dropdown-basic">
+			<Dropdown.Toggle variant="transparent" className="p-0 border-0" id="dropdown-basic">
 				{rootDir}
 			</Dropdown.Toggle>
 

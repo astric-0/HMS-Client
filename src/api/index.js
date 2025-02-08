@@ -97,9 +97,10 @@ export const useDirectoryInfo = (rootDir, path) => {
 	return useQuery({
 		queryKey: [queryKeys.directoryInfo, rootDir, ...path],
 		queryFn: async () => {
-
 			const url = new URL(config.apis.directory + "/directory/" + rootDir);
-			url.search = new URLSearchParams({ path });
+
+			if (path?.length) url.search = new URLSearchParams({ path });
+
 			const response = await fetch(url);
 
 			if (!response.ok)
@@ -110,48 +111,56 @@ export const useDirectoryInfo = (rootDir, path) => {
 	});
 };
 
-export const useRemoveDownloadedFile = () => {
+export const useRemoveFile = (source) => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: async (file) => {
-			const response = await fetch(config.apis.directory, {
+		mutationFn: async (name, isDir) => {
+			const response = await fetch(config.apis.removeFile(name), {
 				method: "DELETE",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(file),
+				body: JSON.stringify({ source, isDir }),
 			});
 
-			if (!response.ok) throw new Error(response?.json()?.error);
+			if (!response.ok) {
+				const error = await response?.json();
+				throw new Error(error);
+			}
 
 			return response.json();
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries(queryKeys.directoryInfo);
+			queryClient.invalidateQueries([queryKeys.directoryInfo]);
 		},
 	});
 };
 
-export const useMoveFileMutation = () => {
+export const useMoveFileMutation = (source) => {
 	const queryClient = useQueryClient();
 
 	return useMutation({
-		mutationFn: async (movePayload) => {
-			const response = await fetch(
-				config.apis.moveDownloadedFile(movePayload.file.name),
-				{
-					method: "PATCH",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(movePayload),
-				}
-			);
+		mutationFn: async ({ destination, file }) => {
+			const response = await fetch(config.apis.moveDownloadedFile(file.name), {
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					filename: file.name,
+					source,
+					destination,
+				}),
+			});
 
-			if (!response.ok) throw new Error(response?.json()?.error);
+			if (!response.ok) {
+				const error = await response?.json();
+				throw new Error(error);
+			}
+
 			return response.json();
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries(queryKeys.directoryInfo);
+			queryClient.invalidateQueries([queryKeys.directoryInfo]);
 		},
 	});
 };
