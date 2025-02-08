@@ -1,9 +1,17 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { config } from "../config";
 
+const queryKeys = Object.keys({
+	movies: "movies",
+	movieSeries: "movieSeries",
+	series: "series",
+	directoryInfo: "directory-info",
+	mediaDownloads: "mediaDownloads",
+});
+
 export const useMovies = () => {
 	return useQuery({
-		queryKey: ["movies"],
+		queryKey: [queryKeys.movies],
 		queryFn: async () => {
 			const response = await fetch(config.apis.movies);
 			return response.json();
@@ -13,7 +21,7 @@ export const useMovies = () => {
 
 export const useSeries = () => {
 	return useQuery({
-		queryKey: ["series"],
+		queryKey: [queryKeys.series],
 		queryFn: async () => {
 			const response = await fetch(config.apis.series);
 			return response.json();
@@ -23,7 +31,7 @@ export const useSeries = () => {
 
 export const useMovieSeries = () => {
 	return useQuery({
-		queryKey: ["movieSeries"],
+		queryKey: [queryKeys.movieSeries],
 		queryFn: async () => {
 			const response = await fetch(config.apis.movieSeries);
 			return response.json();
@@ -33,7 +41,7 @@ export const useMovieSeries = () => {
 
 export const useDownloadJobs = () => {
 	return useQuery({
-		queryKey: ["mediaDownloads"],
+		queryKey: [queryKeys.mediaDownloads],
 		queryFn: async () => {
 			const response = await fetch(config.apis.downloadJobs);
 			return response.json();
@@ -60,7 +68,7 @@ export const useAddDownloads = () => {
 			return response.json();
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries("mediaDownloads");
+			queryClient.invalidateQueries(queryKeys.mediaDownloads);
 		},
 	});
 };
@@ -85,14 +93,18 @@ export const createJson = async (mediaType) => {
 	return response.json();
 };
 
-export const useDownloadsDirectory = () => {
+export const useDirectoryInfo = (rootDir, path) => {
 	return useQuery({
-		queryKey: ["downloadsDirectory"],
+		queryKey: [queryKeys.directoryInfo, rootDir, ...path],
 		queryFn: async () => {
-			const response = await fetch(config.apis.downloadsDirectory);
-			if (!response.ok) {
+
+			const url = new URL(config.apis.directory + "/directory/" + rootDir);
+			url.search = new URLSearchParams({ path });
+			const response = await fetch(url);
+
+			if (!response.ok)
 				throw new Error(`HTTP error! status: ${response.status}`);
-			}
+
 			return response.json();
 		},
 	});
@@ -103,7 +115,7 @@ export const useRemoveDownloadedFile = () => {
 
 	return useMutation({
 		mutationFn: async (file) => {
-			const response = await fetch(config.apis.downloadsDirectory, {
+			const response = await fetch(config.apis.directory, {
 				method: "DELETE",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(file),
@@ -114,7 +126,7 @@ export const useRemoveDownloadedFile = () => {
 			return response.json();
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries("downloadsDirectory");
+			queryClient.invalidateQueries(queryKeys.directoryInfo);
 		},
 	});
 };
@@ -139,7 +151,7 @@ export const useMoveFileMutation = () => {
 			return response.json();
 		},
 		onSuccess: () => {
-			queryClient.invalidateQueries("downloadsDirectory");
+			queryClient.invalidateQueries(queryKeys.directoryInfo);
 		},
 	});
 };

@@ -6,7 +6,7 @@ import Series from "./pages/series";
 import MovieSeries from "./pages/movie-series";
 import Settings from "./pages/settings";
 import DownloadJobs from "./pages/download-job";
-import DownloadsDirectory from "./pages/download-directory";
+import Directory from "./pages/directory";
 import "./App.css";
 
 const queryClient = new QueryClient();
@@ -25,7 +25,7 @@ function App() {
 							<Route path="/download-jobs" element={<DownloadJobs />} />
 							<Route
 								path="/downloads-directory"
-								element={<DownloadsDirectory />}
+								element={<Directory />}
 							/>
 						</Routes>
 					</div>

@@ -23,10 +23,14 @@ export default function MoveOptionsForMediaFile({
 		const actionPayload = {
 			actionType: "move",
 			file,
-			destinationInfo: {
-				moveTo,
+			destination: {
+				rootDir: moveTo,
 				path: path.filter(Boolean),
 			},
+			source: {
+				rootDir: '',
+				path: [],
+			}
 		};
 
 		onMove(actionPayload);

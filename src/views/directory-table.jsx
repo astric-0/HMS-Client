@@ -6,7 +6,7 @@ import { formatFileSize } from "../helpers/format-file-size";
 import FileDetailsModal from "./file-details-modal";
 import { useRemoveDownloadedFile, useMoveFileMutation } from "../api";
 
-function DirectoryTable({ isLoading, files, error }) {
+function DirectoryTable({ isLoading, files, error, handleOpenDir }) {
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [showModal, setShowModal] = useState(false);
 
@@ -55,11 +55,17 @@ function DirectoryTable({ isLoading, files, error }) {
 					<tbody>
 						{files.map((file) => (
 							<tr key={file.path}>
-								<td onClick={() => openFileDetails(file)}>
+								<td
+									onClick={() =>
+										file.isDir
+											? handleOpenDir(file.name)
+											: openFileDetails(file)
+									}
+								>
 									<i className={`bi ${getFileIcon(file)} me-2`}></i>
 									{file.name}
 								</td>
-								<td>{formatFileSize(file.size)}</td>
+								<td>{!file.isDir ? formatFileSize(file.size) : 'N/A'}</td>
 								<td>
 									{file.isDir
 										? "Directory"
@@ -95,6 +101,7 @@ DirectoryTable.propTypes = {
 	isLoading: PropTypes.bool.isRequired,
 	files: PropTypes.array.isRequired,
 	error: PropTypes.bool,
+	handleOpenDir: PropTypes.func,
 };
 
 export default DirectoryTable;
