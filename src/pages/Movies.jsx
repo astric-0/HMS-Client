@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap";
-import MovieList from "../components/MovieList";
-import { useMovies } from '../api/index';
+import MovieList from "../components/movie-list";
+import { useMovies } from '../api';
 
 function Movies() {
   const { data, isLoading } = useMovies();

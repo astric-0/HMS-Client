@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ButtonGroup, Container } from "react-bootstrap";
 import { createJson } from "../api";
-import LoadingButton from "../components/LoadingButton";
+import LoadingButton from "../components/loading-button";
 import { MEDIA_TYPES } from "../constants";
 
 export default function CreateJsonView() {

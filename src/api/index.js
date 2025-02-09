@@ -1,5 +1,5 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { config } from "../config";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const queryKeys = Object.keys({
 	movies: "movies",
@@ -106,7 +106,7 @@ export const useDirectoryInfo = (rootDir, path) => {
 			if (!response.ok)
 				throw new Error(`HTTP error! status: ${response.status}`);
 
-			return response.json();
+			return await response.json();
 		},
 	});
 };
@@ -127,7 +127,7 @@ export const useRemoveFile = (source) => {
 				throw new Error(error);
 			}
 
-			return response.json();
+			return await response.json();
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries([queryKeys.directoryInfo]);
@@ -157,7 +157,7 @@ export const useMoveFileMutation = (source) => {
 				throw new Error(error);
 			}
 
-			return response.json();
+			return await response.json();
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries([queryKeys.directoryInfo]);

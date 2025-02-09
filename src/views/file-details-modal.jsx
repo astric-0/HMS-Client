@@ -1,7 +1,7 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 import { Modal, Button, Row, Col, Spinner } from "react-bootstrap";
 import MoveOptionsForMediaFile from "./move-options-for-media-file";
-import PropTypes from "prop-types";
 import { formatFileSize } from "../helpers/format-file-size";
 import { getFileIcon } from "../constants";
 
@@ -14,16 +14,11 @@ function FileDetailsModal({
 	onHide,
 	file,
 	onDelete,
-	deleteMutation,
 	onMove,
-	moveMutation,
+	deleteIsLoading,
+	moveIsLoading,
 }) {
 	const [moveAction, setMoveAction] = useState(null);
-
-	const handleDelete = useCallback(() => {
-		onDelete(file.name, file.isDir);
-		onHide();
-	}, [onDelete, onHide, file]);
 
 	if (!file) return null;
 
@@ -95,13 +90,15 @@ function FileDetailsModal({
 				</Row>
 
 				{moveAction == ACTIONS.MOVE_ACTION_FOR_MEDIA_FILE && (
-					<MoveOptionsForMediaFile {...{ file, moveMutation, onMove }} />
+					<MoveOptionsForMediaFile
+						{...{ file, isLoading: moveIsLoading, onMove }}
+					/>
 				)}
 			</Modal.Body>
 			<Modal.Footer>
 				<div className="d-flex justify-content-between w-100">
-					<Button variant="transparent" onClick={() => handleDelete()}>
-						{!deleteMutation?.isLoading ? (
+					<Button variant="transparent" onClick={onDelete}>
+						{!deleteIsLoading ? (
 							<i className="bi bi-trash-fill text-danger"></i>
 						) : (
 							<Spinner animation="border" role="status">
@@ -130,9 +127,9 @@ FileDetailsModal.propTypes = {
 		extension: PropTypes.string,
 	}),
 	onDelete: PropTypes.func,
-	deleteMutation: PropTypes.object,
 	onMove: PropTypes.func,
-	moveMutation: PropTypes.object,
+	deleteIsLoading: PropTypes.bool,
+	moveIsLoading: PropTypes.bool,
 };
 
 export default FileDetailsModal;

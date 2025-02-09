@@ -1,6 +1,6 @@
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import BottomNav from "./components/BottomNav";
+import BottomNav from "./components/bottom-nav";
 import Movies from "./pages/movies";
 import Series from "./pages/series";
 import MovieSeries from "./pages/movie-series";

@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { Modal, Button, Form, Spinner } from "react-bootstrap";
-import { useAddDownloads } from "../api";
 import PropTypes from "prop-types";
+import { useAddDownloads } from "../api";
 
 function AddDownloadModal({ show, setter }) {
 	const addDownloadMutation = useAddDownloads();

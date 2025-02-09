@@ -1,4 +1,4 @@
-import SeriesList from "../components/SeriesList";
+import SeriesList from "../components/series-list";
 import { Container } from "react-bootstrap";
 import { useSeries } from "../api";
 

@@ -9,7 +9,7 @@ function MovieList({ files }) {
 
 	const handleCopy = useCallback((url) => {
 		if (!navigator?.clipboard) return alert("Failed to copy");
-    
+
 		navigator?.clipboard
 			?.writeText(getUrl(url))
 			.then(() => alert("URL copied to clipboard!"))
@@ -26,14 +26,14 @@ function MovieList({ files }) {
 		const videoUrl = getUrl(url);
 		const androidIntent = `intent:${videoUrl}#Intent;package=org.videolan.vlc;type=video/*;end`;
 		window.location.href = androidIntent;
-		
+
 		setTimeout(() => {
 			window.location.href = `vlc://${videoUrl}`;
 		}, 100);
 	}, []);
 
 	return (
-		<Container className="py-3">
+		<Container className="px-0">
 			<ListGroup as="ul">
 				{files?.map((file) => (
 					<ListGroup.Item
@@ -69,28 +69,26 @@ function MovieList({ files }) {
 			<Modal show={showModal} onHide={() => setShowModal(false)}>
 				<Modal.Header closeButton>
 					<Modal.Title>
-						{typeof selectedUrl === 'string' ? 'Complete URL' : 'Open With'}
+						{typeof selectedUrl === "string" ? "Complete URL" : "Open With"}
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-						<div className="text-break user-select-all">{selectedUrl}</div>					 
+					<div className="text-break user-select-all">{selectedUrl}</div>
 				</Modal.Body>
 				<Modal.Footer>
 					<Button variant="secondary" onClick={() => setShowModal(false)}>
 						Close
 					</Button>
-					{typeof selectedUrl === 'string' && (
-						<>
-							<Button
-								variant="primary"
-								onClick={() => {
-									handleCopy(selectedUrl);
-									setShowModal(false);
-								}}
-							>
-								Copy URL
-							</Button>
-						</>
+					{typeof selectedUrl === "string" && (
+						<Button
+							variant="primary"
+							onClick={() => {
+								handleCopy(selectedUrl);
+								setShowModal(false);
+							}}
+						>
+							Copy URL
+						</Button>
 					)}
 				</Modal.Footer>
 			</Modal>

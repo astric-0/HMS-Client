@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Dropdown } from "react-bootstrap";
-import { MEDIA_TYPES } from "../constants";
 import PropTypes from "prop-types";
+import { MEDIA_TYPES } from "../constants";
 
 function ChooseDirectoryDropdown({ rootDir, handleChooseRootDir }) {
 	const mediaTypes = useMemo(() => Object.entries(MEDIA_TYPES), []);
@@ -23,6 +23,7 @@ function ChooseDirectoryDropdown({ rootDir, handleChooseRootDir }) {
 					</Dropdown.Item>
 				))}
 			</Dropdown.Menu>
+
 		</Dropdown>
 	);
 }

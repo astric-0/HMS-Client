@@ -3,7 +3,6 @@ import { Container, Alert } from "react-bootstrap";
 import { MEDIA_TYPES } from "../constants";
 import { useDirectoryInfo } from "../api";
 import DirectoryTable from "../views/directory-table";
-//import StorageInfo from "../views/storage-info";
 import ChooseDirectoryDropdown from "../views/choose-directory-dropdown";
 import DirectoryPath from "../views/directory-path";
 

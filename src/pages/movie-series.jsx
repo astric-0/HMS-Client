@@ -1,5 +1,5 @@
 import { Container } from "react-bootstrap";
-import MovieSeriesList from "../components/MovieSeriesList";
+import MovieSeriesList from "../components/movie-series-list";
 import { useMovieSeries } from "../api";
 
 function MovieSeries() {

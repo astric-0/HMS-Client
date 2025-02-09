@@ -5,15 +5,14 @@ import { MEDIA_TYPES } from "../constants";
 
 MoveOptionsForMediaFile.propTypes = {
 	file: PropTypes.object.isRequired,
-	onMove: PropTypes.func.isRequired,
-	moveMutation: PropTypes.object.isRequired,
-	sourcePath: PropTypes.string.isRequired,
+	onMove: PropTypes.func,
+	isLoading: PropTypes.bool,
 };
 
 export default function MoveOptionsForMediaFile({
 	file,
 	onMove,
-	moveMutation,
+	isLoading,
 }) {
 	const [path, setPath] = useState(["", ""]);
 	const [moveTo, setMoveTo] = useState("");
@@ -126,9 +125,9 @@ export default function MoveOptionsForMediaFile({
 						variant="success"
 						type="button"
 						onClick={handleMove}
-						disabled={moveMutation.isLoading}
+						disabled={isLoading}
 					>
-						{moveMutation.isLoading ? (
+						{isLoading ? (
 							<Spinner animation="border" size="sm" />
 						) : (
 							"Confirm Move"

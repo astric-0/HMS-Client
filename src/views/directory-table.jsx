@@ -30,18 +30,17 @@ function DirectoryTable({
 	const deleteMutation = useRemoveFile({ rootDir, path });
 	const moveFileMutation = useMoveFileMutation({ rootDir, path });
 
-	const handleDeleteFile = useCallback(
-		async (filename) => {
-			await deleteMutation.mutateAsync(filename);
-		},
-		[deleteMutation]
-	);
+	const handleDeleteFile = useCallback(async () => {
+		await deleteMutation.mutateAsync(selectedFile.name, selectedFile.isDir);
+		handleCloseModal();
+	}, [deleteMutation, handleCloseModal, selectedFile]);
 
 	const handleMoveFile = useCallback(
-		(actionPayload) => {
-			moveFileMutation.mutate(actionPayload);
+		async (actionPayload) => {
+			await moveFileMutation.mutateAsync(actionPayload);
+			handleCloseModal();
 		},
-		[moveFileMutation]
+		[moveFileMutation, handleCloseModal]
 	);
 
 	return (
@@ -98,9 +97,9 @@ function DirectoryTable({
 				onHide={handleCloseModal}
 				file={selectedFile}
 				onDelete={handleDeleteFile}
-				deleteMutation={deleteMutation}
+				deleteIsLoading={deleteMutation?.isLoading ?? false}
 				onMove={handleMoveFile}
-				moveMutation={moveFileMutation}
+				moveIsLoading={moveFileMutation?.isLoading ?? false}
 			/>
 		</>
 	);

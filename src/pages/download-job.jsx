@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Container, Spinner, Button } from "react-bootstrap";
 import { useDownloadJobs } from "../api";
 import AddDownloadModal from "../views/add-download-modal";
@@ -7,25 +7,28 @@ import DownloadsTable from "../views/downloads-table";
 function DownloadJobs() {
 	const { data, isLoading } = useDownloadJobs();
 	const [showModal, setShowModal] = useState(false);
-	
-	const jobsData = [
-		{
-			caption: "Active",
-			jobs: data?.jobs?.active ?? [],
-		},
-		{
-			caption: "Completed",
-			jobs: data?.jobs?.completed ?? [],
-		},
-		{
-			caption: "Waiting",
-			jobs: data?.jobs?.waiting ?? [],
-		},
-		{
-			caption: "Failed",
-			jobs: data?.jobs?.failed ?? [],
-		},
-	];
+
+	const jobsData = useMemo(
+		() => [
+			{
+				caption: "Active",
+				jobs: data?.jobs?.active ?? [],
+			},
+			{
+				caption: "Completed",
+				jobs: data?.jobs?.completed ?? [],
+			},
+			{
+				caption: "Waiting",
+				jobs: data?.jobs?.waiting ?? [],
+			},
+			{
+				caption: "Failed",
+				jobs: data?.jobs?.failed ?? [],
+			},
+		],
+		[data]
+	);
 
 	return (
 		<Container>

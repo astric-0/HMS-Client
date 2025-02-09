@@ -1,6 +1,6 @@
 import { Accordion, ProgressBar, Row, Col } from "react-bootstrap";
 import PropTypes from "prop-types";
-import { formatFileSize } from "../helpers/formatFileSize";
+import { formatFileSize } from "../helpers/format-file-size";
 
 function StorageInfo({ info }) {
 	const { total, used, available, usedByDownloads, disk } = info;

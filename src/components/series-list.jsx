@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Accordion, ListGroup, Button, Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import MovieList from './MovieList';
+import MovieList from './movie-list';
 
 function SeriesList({ series }) {
   const [selectedSeason, setSelectedSeason] = useState(null);
@@ -22,9 +22,9 @@ function SeriesList({ series }) {
                 {show.seasons?.map((season, seasonIndex) => (
                   <ListGroup.Item 
                     key={season.name}
-                    className="border-bottom"
+                    className="border-bottom p-1"
                   >
-                    <div className="d-flex justify-content-between align-items-center py-2">
+                    <div className="d-flex justify-content-between align-items-center mx-2">
                       <span>{season.name}</span>
                       <Button
                         variant={selectedSeason === `${index}-${seasonIndex}` ? "primary" : "outline-primary"}
@@ -34,11 +34,11 @@ function SeriesList({ series }) {
                         )}
                       >
                         <i className="bi bi-collection-play me-1"></i>
-                        {selectedSeason === `${index}-${seasonIndex}` ? 'Hide' : 'Show'} Episodes
+                        {selectedSeason === `${index}-${seasonIndex}` ? 'Hide' : 'Show'}
                       </Button>
                     </div>
                     {selectedSeason === `${index}-${seasonIndex}` && (
-                      <div className="mt-3">
+                      <div className="mt-3 mx-1">
                         <MovieList 
                           files={season.episodes}
                         />
