@@ -25,7 +25,7 @@ function SeriesList({ series }) {
                     className="border-bottom p-1"
                   >
                     <div className="d-flex justify-content-between align-items-center mx-2">
-                      <span span="text-break">{season.name}</span>
+                      <span className="text-break">{season.name}</span>
                       <Button
                         variant={selectedSeason === `${index}-${seasonIndex}` ? "primary" : "outline-primary"}
                         size="sm"
