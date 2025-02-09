@@ -7,6 +7,7 @@ export const config = Object.freeze({
 		series: getUrl("/media/series/list"),
 		movieSeries: getUrl("/media/movie-series/list"),
 		json: getUrl("/media/json"),
+		downloadMediaFile: (filename, query) => getUrl(`/media/${filename}/download?${query}`), 
 
 		downloadJobs: getUrl("/downloads/jobs"),
 

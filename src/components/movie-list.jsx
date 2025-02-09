@@ -16,9 +16,10 @@ function MovieList({ files }) {
 			.catch((err) => alert("Failed to copy:", err));
 	}, []);
 
-	const handleShowUrl = useCallback((url, e) => {
+	const handleShowUrl = useCallback(({ url, downloadUrl }, e) => {
 		e.stopPropagation();
-		setSelectedUrl(getUrl(url));
+		console.log({ url, downloadUrl });
+		setSelectedUrl({ url: getUrl(url), downloadUrl: getUrl(downloadUrl) });
 		setShowModal(true);
 	}, []);
 
@@ -54,10 +55,11 @@ function MovieList({ files }) {
 							>
 								<i className="bi bi-play-circle"></i>
 							</Button>
+
 							<Button
 								variant="outline-info"
 								size="sm"
-								onClick={(e) => handleShowUrl(file.url, e)}
+								onClick={(e) => handleShowUrl(file, e)}
 							>
 								<i className="bi bi-eye"></i>
 							</Button>
@@ -69,26 +71,31 @@ function MovieList({ files }) {
 			<Modal show={showModal} onHide={() => setShowModal(false)}>
 				<Modal.Header closeButton>
 					<Modal.Title>
-						{typeof selectedUrl === "string" ? "Complete URL" : "Open With"}
+						{typeof selectedUrl.url === "string" ? "Complete URL" : "Open With"}
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<div className="text-break user-select-all">{selectedUrl}</div>
+					<div className="text-break user-select-all">{selectedUrl.url}</div>
 				</Modal.Body>
 				<Modal.Footer>
 					<Button variant="secondary" onClick={() => setShowModal(false)}>
 						Close
 					</Button>
-					{typeof selectedUrl === "string" && (
+					{typeof selectedUrl.url === "string" && (
 						<Button
 							variant="primary"
 							onClick={() => {
-								handleCopy(selectedUrl);
+								handleCopy(selectedUrl.url);
 								setShowModal(false);
 							}}
 						>
 							Copy URL
 						</Button>
+					)}
+					{typeof selectedUrl.downloadUrl === "string" && (
+						<a href={selectedUrl.downloadUrl} className="btn btn-dark" download>
+							Download
+						</a>
 					)}
 				</Modal.Footer>
 			</Modal>
